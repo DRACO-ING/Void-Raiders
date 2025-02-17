@@ -14,11 +14,11 @@ Void Raiders es un *Galaxy Shooter* multijugador LAN cooperativo desarrollado en
    ```sh
    git clone <iojaness/Void-Raiders>
    ```
-2. Abre el proyecto en Unity (ver versión recomendada más abajo).
+2. Abre el proyecto en Unity.
 3. Comienza a programar siguiendo el CONTRIBUING.md
 
 ## Herramientas Utilizadas
-- **Unity:** Versión recomendada (aún por definir)
+- **Unity:** Versión 6000.0.23f1
 - **Blender:** Para modelado 3D.
 - **GitHub Desktop:** Para la gestión del repositorio.
 
@@ -39,4 +39,4 @@ Void Raiders es un *Galaxy Shooter* multijugador LAN cooperativo desarrollado en
 Para contribuir, sigue las normas establecidas en `CONTRIBUTING.md`.
 
 ## Contacto
-Para dudas o problemas, comunícate con evan.
+Para dudas o problemas, comunícate con Evan.
