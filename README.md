@@ -48,7 +48,7 @@ Void Raiders es un *Galaxy Shooter* multijugador LAN cooperativo desarrollado en
 Actualmente estamos trabajando en:
 1. **Diseño de mecánicas básicas del juego.**
 2. **Diseño de enemigos.**
-3. **Diseño de niveles.**
+3. **Planificacion de la estructura de los niveles.**
 
 ---
 
