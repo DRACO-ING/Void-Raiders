@@ -14,10 +14,30 @@ public class IAPatrol : MonoBehaviour
     [Header("Disparo")]
     [SerializeField] public float velDisparo = 1f;
 
+    private Rigidbody rb;
+    
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+    }
+    private void OnEnable()
+    {
+        // Reiniciar el estado del objeto al activarse
+        devolviendose = false;
+        objetivo = puntoA;
+    }
+    private void OnDisable()
+    {
+        // Detener la corutina de disparo al desactivarse
+        StopCoroutine(Disparar());
+    }
+
     void Start()
     {
-        puntoA = new Vector3(39, 18, -3);
-        puntoB = new Vector3(39, -13, -3);
+        puntoA = new Vector3(15, 9, -3);
+        puntoB = new Vector3(15, -5, -3);
 
         // Primero, el objeto se mueve hacia A
         objetivo = puntoA;
@@ -37,10 +57,10 @@ public class IAPatrol : MonoBehaviour
             // Si el objetivo era A, se actualiza A y se cambia el objetivo a B
             if (objetivo == puntoA)
             {
-                if(puntoA.x <=-34){
+                if(puntoA.x <=-16){
                     devolviendose = true;
                 }
-                else if(puntoA.x >= 39){
+                else if(puntoA.x >= 15){
                     devolviendose = false;
                 }
                 puntoA += devolviendose ? new Vector3(5,0,0) : new Vector3(-5, 0, 0);
@@ -66,7 +86,7 @@ public class IAPatrol : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f / velDisparo);
-            Debug.Log("Disparo");
+            Debug.Log("IA Dispara");
         }
     }
 }
