@@ -1,17 +1,32 @@
 using UnityEngine;
 
-public class movimiento : MonoBehaviour
-{
-    //SCRIPT DE MOVIMIENTO TEMPORAL
-    public float speed = 15f;
+[RequireComponent(typeof(Rigidbody))]
+public class Movimiento : MonoBehaviour{
+    [Header ("Movimiento")]
+    [SerializeField] public float velocidad = 10f;
 
-    void Update()
-    {
-        float moveVertical = (Input.GetKey(KeyCode.W) ? 1 : 0) + (Input.GetKey(KeyCode.S) ? -1 : 0);
-        float moveHorizontal = (Input.GetKey(KeyCode.A) ? -1 : 0) + (Input.GetKey(KeyCode.D) ? 1 : 0);
+    [Header ("Disparo")]
+    [SerializeField] public GameObject disparoPrefab;
+    public float cadenciaDisparo = 1f;
+
+    private float tiempoUltDisparo;
+    private Rigidbody rb;
+
+    void Start(){
+        rb = GetComponent<Rigidbody>();
         
-        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0) * speed * Time.deltaTime;
-        transform.position += movement;
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation |
+        RigidbodyConstraints.FreezePositionZ;
+        tiempoUltDisparo = 0f;
+    }
+
+    void FixedUpdate(){
+        float movHorizontal = Input.GetAxis("Horizontal");
+        float movVertical = Input.GetAxis("Vertical");
+
+        Vector3 movimiento = new Vector3(movHorizontal, movVertical, 0f) * velocidad;
+
+        rb.linearVelocity = movimiento;
     }
 }
-
