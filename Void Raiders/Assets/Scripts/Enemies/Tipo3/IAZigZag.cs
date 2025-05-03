@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class IAPatrol : MonoBehaviour
+public class IAZigZag : MonoBehaviour
 {
     [Header("Movimiento")]
     Vector3 puntoA;
@@ -68,7 +68,7 @@ public class IAPatrol : MonoBehaviour
                 }
 
                 // Ahora el desplazamiento horizontal va en la dirección correcta
-                puntoA += devolviendose ? new Vector3(5,0,0) : new Vector3(-5, 0, 0);
+                puntoA = devolviendose ? new Vector3(puntoB.x+10,puntoA.y,0) : new Vector3(puntoB.x-10, puntoA.y, 0);
                 objetivo = puntoB;
             }
             else if (objetivo == puntoB)
@@ -81,7 +81,7 @@ public class IAPatrol : MonoBehaviour
                     devolviendose = false;
                 }
 
-                puntoB += devolviendose ? new Vector3(5,0,0) : new Vector3(-5, 0, 0);
+                puntoB = devolviendose ? new Vector3(puntoA.x+10,puntoB.y,0) : new Vector3(puntoA.x-10, puntoB.y, 0);
                 objetivo = puntoA;
             }
 

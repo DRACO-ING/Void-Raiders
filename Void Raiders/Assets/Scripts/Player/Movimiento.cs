@@ -5,11 +5,6 @@ public class Movimiento : MonoBehaviour{
     [Header ("Movimiento")]
     [SerializeField] public float velocidad = 10f;
 
-    [Header ("Disparo")]
-    [SerializeField] public GameObject disparoPrefab;
-    public float cadenciaDisparo = 1f;
-
-    private float tiempoUltDisparo;
     private Rigidbody rb;
 
     void Start(){
@@ -17,16 +12,19 @@ public class Movimiento : MonoBehaviour{
         
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezeRotation |
-        RigidbodyConstraints.FreezePositionZ;
-        tiempoUltDisparo = 0f;
-    }
+        RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;    }
 
-    void FixedUpdate(){
+    void FixedUpdate()
+    {
         float movHorizontal = Input.GetAxis("Horizontal");
         float movVertical = Input.GetAxis("Vertical");
 
-        Vector3 movimiento = new Vector3(movHorizontal, movVertical, 0f) * velocidad;
+        Vector3 direccion = new Vector3(movHorizontal, movVertical, 0f).normalized;
+        Vector3 nuevaPosicion = Vector3.MoveTowards(transform.position, transform.position + direccion, velocidad * Time.fixedDeltaTime);
 
-        rb.linearVelocity = movimiento;
+        transform.position = nuevaPosicion;
     }
+
 }
