@@ -7,7 +7,7 @@ Gracias por contribuir a *Void Raiders*. Sigue estas instrucciones para asegurar
    ```sh
    git clone <iojaness/Void-Reaiders>
    ```
-2. **Crea una nueva rama desde `dev`** siguiendo estas convenciones:
+2. **Crea una nueva rama desde `dev/Codigo Historia Jira`** siguiendo estas convenciones:
    - Funcionalidad nueva: `feature/nombre-feature`
    - Corrección de errores: `bugfix/nombre-bug`
    - Solución urgente: `hotfix/nombre-hotfix`
