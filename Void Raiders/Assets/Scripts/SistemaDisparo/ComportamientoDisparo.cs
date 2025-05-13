@@ -10,6 +10,7 @@ public class ScriptDisparo : ScriptableObject {
         [Header("Prefab")]
         [Tooltip("Prefab del proyectil")]
         public GameObject proyectilPrefab;
+        public GameObject proyectil;
         [Tooltip("Textura")]
         public Texture2D texturaProyectil;
         [Header("Parametros del disparo")]
@@ -32,9 +33,10 @@ public class ScriptDisparo : ScriptableObject {
         switch(tipoDisparo){
             case 1 : 
                 compDisparo1();
+                Debug.Log("Disparo tipo 1 activado");
                 break;
             default:
-                Debug.LogWarning("Tipo de disparo");
+                Debug.LogWarning("Tipo de disparo no reconocido: " + tipoDisparo);
                 break;
         }
 
@@ -43,11 +45,14 @@ public class ScriptDisparo : ScriptableObject {
 
     //Comportamiento del disaparo tipo 1
     void compDisparo1(){
-        proyectilPrefab.transform.Translate(Vector3.forward * tipoDisparo * Time.deltaTime);
+       
+        //Instanciamos el proyectil
+        proyectil.transform.Translate(new Vector3 (direccion.x, direccion.y, 0)* velBala * Time.deltaTime);
+
     }
 
     //Funcion que destruye el proyectil cuando sale de pantalla
     void OnBecameInvisible() {
-        Destroy(proyectilPrefab);
+        Destroy(proyectil);
      }
 }
