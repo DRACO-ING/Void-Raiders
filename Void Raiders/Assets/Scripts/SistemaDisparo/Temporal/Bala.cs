@@ -9,4 +9,8 @@ public class Bala : MonoBehaviour
         Destroy(collision.gameObject);
         Destroy(gameObject);
     }
+        void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
 }
