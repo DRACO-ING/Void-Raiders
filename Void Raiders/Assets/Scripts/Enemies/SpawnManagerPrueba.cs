@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,18 +6,22 @@ public class SpawnManagerPrueba : MonoBehaviour
 {
     public GameObject[] spawnPoints; // Puntos de spawn
     public GameObject enemyPrefab; // Prefab de enemigos
-    public int waveCount; // Número de enemigos por oleada
+    public int waveCount; // NÃºmero de enemigos por oleada
     public int wave; // Contador de oleadas
     public bool spawning;
     private int activeEnemies; // Contador de enemigos activos
     private GameManager gameManager;
     private List<GameObject> enemies = new List<GameObject>(); // Lista de enemigos para eliminarlos con "E"
+    public GameObject bossPrefab; // Prefab del jefe
+    private bool bossSpawned = false; // Variable para verificar si el jefe ya ha aparecido
+    private bool isBossRound = false; // Variable para saber si la ronda es ronda de jefe
+
 
     void Start()
     {
-        waveCount = 2; // Número inicial de enemigos por oleada
+        waveCount = 2; // NÃºmero inicial de enemigos por oleada
         wave = 1; // Primera oleada
-        spawning = false; // No está spawneando al inicio
+        spawning = false; // No estÃ¡ spawneando al inicio
         activeEnemies = 0; // Inicialmente no hay enemigos
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
@@ -27,21 +31,53 @@ public class SpawnManagerPrueba : MonoBehaviour
     IEnumerator StartRound()
     {
         Debug.Log("Inicio de ronda " + wave);
+        isBossRound = false;
 
-        // Iniciar la oleada de enemigos
-        StartCoroutine(SpawnWave(waveCount));
+        if (wave % 10 == 0 && bossSpawned == false)
+        {
+            StartCoroutine(SpawnBoss());
+            bossSpawned = true;
+            isBossRound = true;
+        }
+        else
+        {
+            StartCoroutine(SpawnWave(waveCount));
+        }
 
-        // Esperar hasta que no haya enemigos activos y que el spawning haya terminado
         yield return new WaitUntil(() => activeEnemies <= 0 && !spawning);
-
-        // Esperamos un poco antes de la siguiente ronda
         yield return new WaitForSeconds(2);
 
-        wave++; // Aumentamos la ronda
-        waveCount += 2; // Incrementamos el número de enemigos
-        StartCoroutine(StartRound());
+        if (!isBossRound)
+        {
+            wave++;
+            waveCount += 2;
+            StartCoroutine(StartRound()); //  Solo continuar si no fue ronda de jefe
+        }
+        //  Si fue ronda de jefe, no avanzamos. El avance se harÃ¡ desde EnemyDestroyed cuando el boss muera
     }
 
+
+
+    IEnumerator SpawnBoss()
+    {
+        spawning = true;
+        Debug.Log("Â¡Boss apareciendo en la ronda " + wave + "!");
+
+        int index = Random.Range(0, spawnPoints.Length);
+        GameObject spawnPoint = spawnPoints[index];
+
+        GameObject boss = Instantiate(bossPrefab, spawnPoint.transform.position, Quaternion.identity);
+        boss.name = "Boss_" + wave;
+
+        activeEnemies++; // para verificar despues si hay enemigos activos y iniciar otra ronda
+        enemies.Add(boss); //se aÃ±ade el boss a la lista de enemigos
+
+        DeletEnemy enemyScript = boss.AddComponent<DeletEnemy>();
+        enemyScript.SetSpawnManager(this);
+
+        spawning = false;
+        yield return null;
+    }
 
     IEnumerator SpawnWave(int waveC)
     {
@@ -63,7 +99,7 @@ public class SpawnManagerPrueba : MonoBehaviour
         int index = Random.Range(0, spawnPoints.Length);
         GameObject spawnPoint = spawnPoints[index];
 
-        // Instanciamos el enemigo y le agregamos la función de destrucción
+        // Instanciamos el enemigo y le agregamos la funciÃ³n de destrucciÃ³n
         GameObject enemy = Instantiate(enemyPrefab, spawnPoint.transform.position, Quaternion.identity);
 
         activeEnemies++; // Aumentamos el contador de enemigos
@@ -78,10 +114,25 @@ public class SpawnManagerPrueba : MonoBehaviour
 
     public void EnemyDestroyed(GameObject enemy)
     {
-        activeEnemies--; // Disminuimos el contador cuando un enemigo muere
-        enemies.Remove(enemy); // Eliminamos el enemigo de la lista
+        activeEnemies--;
+        enemies.Remove(enemy);
         Debug.Log("Enemigo destruido. Enemigos restantes: " + activeEnemies);
+
+        if (enemy.name.Contains("Boss"))
+        {
+            bossSpawned = false;
+
+            //  Solo si el jefe ha muerto y no hay enemigos vivos, continuar la ronda
+            if (activeEnemies <= 0)
+            {
+                wave++;
+                waveCount += 2;
+                StartCoroutine(StartRound());
+            }
+        }
     }
+
+
 
     void Update()
     {
@@ -89,6 +140,7 @@ public class SpawnManagerPrueba : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             DeleteAllEnemies();
+            bossSpawned = false;
         }
     }
 
@@ -103,5 +155,6 @@ public class SpawnManagerPrueba : MonoBehaviour
         }
         enemies.Clear(); // Limpiamos la lista de enemigos
         activeEnemies = 0; // Reseteamos el contador
+        
     }
 }

@@ -716,9 +716,10 @@ MonoBehaviour:
   - {fileID: 689514268}
   - {fileID: 1053419573}
   enemyPrefab: {fileID: 1169606352220063480, guid: 8c0a0c8bb3ed04a4587c12d74c65b309, type: 3}
-  enemyMarkerPrefab: {fileID: 8715543027815363852, guid: 1b9ad48047ba591499e0c6bd5fa1c324, type: 3}
   waveCount: 0
   wave: 0
+  spawning: 0
+  bossPrefab: {fileID: 2721217073351664176, guid: 2489be0ab37ad684b8e88676280af05f, type: 3}
 --- !u!4 &1773665156
 Transform:
   m_ObjectHideFlags: 0
