@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 70afd9a89c2da2b4b995c3af1dc80d04, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 9f69d571a9cb54943b5a80ccd6b19e96, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -449,6 +449,7 @@ MonoBehaviour:
   FirePoint: {fileID: 807658903}
   PrefabBala: {fileID: 6353127457912890892, guid: 130724d959614f746ba029988c893b95, type: 3}
   VelocidadBala: 20
+  fireRate: 5
 --- !u!1001 &1537944460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -706,7 +707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412dd16d17c16344ca8fe93a6ed10b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.5
+  rotationSpeed: 1.5
 --- !u!4 &2103314195
 Transform:
   m_ObjectHideFlags: 0
